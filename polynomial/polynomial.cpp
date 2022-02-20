@@ -17,7 +17,9 @@ void Polynimial::fix()
     coef.resize(new_size);
 }
 
-Polynimial::Polynimial(unsigned size = 0, double value = 0)
+Polynimial::Polynimial() {}
+
+Polynimial::Polynimial(unsigned size, double value)
 {
     if ((!size) || (value != 0))
         coef.resize(size, value);
