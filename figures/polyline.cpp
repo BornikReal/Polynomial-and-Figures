@@ -25,7 +25,7 @@ Polyline::Polyline() {
     perimeter = 0;
 }
 
-Polyline::Polyline(const std::vector <Point> &_points = {}) {
+Polyline::Polyline(const std::vector <Point> &_points) {
     for (int i = 0; i < _points.size(); i++)
         points.push_back(_points[i]);
     fix();
@@ -43,6 +43,24 @@ Polyline& Polyline::operator = (const Polyline &new_polyline) {
     for (int i = 0; i < points.size(); i++)
         points[i] = new_polyline.points[i];
     return *this;
+}
+
+bool Polyline::operator == (const Polyline& poly) const {
+    if (points.size() != poly.points.size())
+        return false;
+    for (int i = 0; i < points.size(); i++)
+        if (points[i] != poly.points[i])
+            return false;
+    return true;
+}
+
+bool Polyline::operator != (const Polyline& poly) const {
+    if (points.size() != poly.points.size())
+        return true;
+    for (int i = 0; i < points.size(); i++)
+        if (points[i] != poly.points[i])
+            return true;
+    return false;
 }
 
 bool Polyline::operator > (const Polyline &poly) const {

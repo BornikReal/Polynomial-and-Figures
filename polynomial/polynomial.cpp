@@ -19,7 +19,7 @@ void Polynimial::fix()
 
 Polynimial::Polynimial() {}
 
-Polynimial::Polynimial(unsigned size, double value = 0)
+Polynimial::Polynimial(unsigned size, double value)
 {
     if ((!size) || (value != 0))
         coef.resize(size, value);
@@ -253,7 +253,7 @@ Polynimial Polynimial::operator--(int)
 
 Polynimial Polynimial::operator*(const Polynimial &poly) const
 {
-    Polynimial new_poly(poly.coef.size() + coef.size());
+    Polynimial new_poly(poly.coef.size() + coef.size(), 0);
     for (int i = 0; i < coef.size(); i++)
     {
         for (int j = 0; j < poly.coef.size(); j++)

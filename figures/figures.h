@@ -41,6 +41,8 @@ class Polyline {
         Polyline(const Polyline &new_polyline);
         ~Polyline() {}
         Polyline& operator = (const Polyline &new_polyline);
+        bool operator == (const Polyline& poly) const;
+        bool operator != (const Polyline& poly) const;
         bool operator > (const Polyline &poly) const;
         bool operator >= (const Polyline &poly) const;
         bool operator < (const Polyline &poly) const;

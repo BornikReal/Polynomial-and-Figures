@@ -11,7 +11,7 @@ private:
 
 public:
     Polynimial();
-    Polynimial(unsigned size, double value = 0);
+    Polynimial(unsigned size, double value);
     Polynimial(const std::vector<double> &_coef);
     Polynimial(const Polynimial &new_poly);
     ~Polynimial() {}
