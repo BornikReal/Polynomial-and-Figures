@@ -4,7 +4,8 @@
 #include <iostream>
 #include <math.h>
 
-bool RegularPolygon::is_regular_polygon() {
+bool RegularPolygon::is_regular_polygon()
+{
     Point a = Point(0, 0) + (points_[0] - points_[1]);
     Point b = Point(0, 0) + (points_[0] - points_[points_.size() - 1]);
     side_ = Polyline({points_[0], points_[1]});
@@ -20,12 +21,15 @@ bool RegularPolygon::is_regular_polygon() {
     return true;
 }
 
-double RegularPolygon::new_square() const {
+double RegularPolygon::new_square() const
+{
     return (points_.size() * side_.perimeter() * side_.perimeter()) / (4 * tan(acos(-1) / side_.perimeter()));
 }
 
-RegularPolygon::RegularPolygon(const std::vector <Point> &_points):Polygon(_points) {
-    if (!is_regular_polygon()) {
+RegularPolygon::RegularPolygon(const std::vector<Point> &points) : Polygon(points)
+{
+    if (!is_regular_polygon())
+    {
         points_.resize(0);
         perimeter_ = 0;
         square_ = 0;
@@ -34,38 +38,43 @@ RegularPolygon::RegularPolygon(const std::vector <Point> &_points):Polygon(_poin
     }
 }
 
-RegularPolygon::RegularPolygon(const RegularPolygon& new_rpoly):Polygon(new_rpoly) {
+RegularPolygon::RegularPolygon(const RegularPolygon &new_rpoly) : Polygon(new_rpoly)
+{
     side_ = new_rpoly.side_;
     angle_ = new_rpoly.angle_;
 }
 
-RegularPolygon& RegularPolygon::operator = (const RegularPolygon &new_rpoly) {
-    points_.resize(new_rpoly.points_.size());
-    side_ = new_rpoly.side_;
-    angle_ = new_rpoly.angle_;
+RegularPolygon &RegularPolygon::operator=(const RegularPolygon &rhs)
+{
+    points_.resize(rhs.points_.size());
+    side_ = rhs.side_;
+    angle_ = rhs.angle_;
     for (int i = 0; i < points_.size(); i++)
-        points_[i] = new_rpoly.points_[i];
+        points_[i] = rhs.points_[i];
     perimeter_ = new_perimeter();
     square_ = new_square();
     return *this;
 }
 
-bool RegularPolygon::operator == (const RegularPolygon& rpolygon) const {
-    if ((side_ == rpolygon.side_) && (angle_ == rpolygon.angle_))
+bool RegularPolygon::operator==(const RegularPolygon &rhs) const
+{
+    if ((side_ == rhs.side_) && (angle_ == rhs.angle_))
         return true;
     return false;
 }
 
-bool RegularPolygon::operator != (const RegularPolygon& rpolygon) const {
-    if ((side_ == rpolygon.side_) && (angle_ == rpolygon.angle_))
+bool RegularPolygon::operator!=(const RegularPolygon &rhs) const
+{
+    if ((side_ == rhs.side_) && (angle_ == rhs.angle_))
         return false;
     return true;
 }
 
-std::ostream &operator<<(std::ostream &out, const RegularPolygon &rpolygon) {
+std::ostream &operator<<(std::ostream &out, const RegularPolygon &rhs)
+{
     out << "Right polygon:";
-    for (int i = 0; i < rpolygon.points_.size(); i++)
-        out << " " << rpolygon.points_[i];
-    out << " Perimetere = " << rpolygon.perimeter() << " square_ = " << rpolygon.square();
+    for (int i = 0; i < rhs.points_.size(); i++)
+        out << " " << rhs.points_[i];
+    out << " Perimetere = " << rhs.perimeter() << " square_ = " << rhs.square();
     return out;
 }
