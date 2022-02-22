@@ -112,8 +112,10 @@ class Trapezoid final: public Polygon {
 
 class RegularPolygon final: public Polygon {
     private:
-        bool is_regular_polygon() const;
-        // double new_square() const;
+        Polyline side;
+        double angle;
+        bool is_regular_polygon();
+        double new_square() const;
     public:
         RegularPolygon() {};
         RegularPolygon(const std::vector <Point> &_points);
