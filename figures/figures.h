@@ -122,5 +122,7 @@ class RegularPolygon final: public Polygon {
         RegularPolygon(const RegularPolygon& new_rpoly);
         ~RegularPolygon() {}
         RegularPolygon& operator = (const RegularPolygon &new_rpoly);
+        bool operator == (const RegularPolygon& rpolygon) const;
+        bool operator != (const RegularPolygon& rpolygon) const;
         friend std::ostream &operator<<(std::ostream &out, const RegularPolygon &rpolygon);
 };

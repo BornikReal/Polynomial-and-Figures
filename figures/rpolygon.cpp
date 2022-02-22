@@ -50,6 +50,18 @@ RegularPolygon& RegularPolygon::operator = (const RegularPolygon &new_rpoly) {
     return *this;
 }
 
+bool RegularPolygon::operator == (const RegularPolygon& rpolygon) const {
+    if ((side == rpolygon.side) && (angle == rpolygon.angle))
+        return true;
+    return false;
+}
+
+bool RegularPolygon::operator != (const RegularPolygon& rpolygon) const {
+    if ((side == rpolygon.side) && (angle == rpolygon.angle))
+        return false;
+    return true;
+}
+
 std::ostream &operator<<(std::ostream &out, const RegularPolygon &rpolygon) {
     out << "Right polygon:";
     for (int i = 0; i < rpolygon.points.size(); i++)
