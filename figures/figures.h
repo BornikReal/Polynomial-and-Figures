@@ -1,5 +1,5 @@
 #include <vector>
-#include <ostream>
+#include <iostream>
 
 #pragma once
 
@@ -122,6 +122,10 @@ public:
     ~Trapezoid() {}
     Trapezoid &operator=(const Trapezoid &rhs);
     friend std::ostream &operator<<(std::ostream &out, const Trapezoid &rhs);
+    Polyline sm_par() const;
+    Polyline big_par() const;
+    Polyline sm_side() const;
+    Polyline big_side() const;
 };
 
 class RegularPolygon final : public Polygon
@@ -141,4 +145,6 @@ public:
     bool operator==(const RegularPolygon &rhs) const;
     bool operator!=(const RegularPolygon &rhs) const;
     friend std::ostream &operator<<(std::ostream &out, const RegularPolygon &rhs);
+    Polyline side() const;
+    double angle() const;
 };

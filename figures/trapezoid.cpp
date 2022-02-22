@@ -110,3 +110,19 @@ std::ostream &operator<<(std::ostream &out, const Trapezoid &rhs)
     out << " Perimetere = " << rhs.perimeter() << " square_ = " << rhs.square();
     return out;
 }
+
+Polyline Trapezoid::sm_par() const {
+    return sm_par_;
+}
+
+Polyline Trapezoid::big_par() const {
+    return big_par_;
+}
+
+Polyline Trapezoid::sm_side() const {
+    return sm_side_;
+}
+
+Polyline Trapezoid::big_side() const {
+    return big_side_;
+}

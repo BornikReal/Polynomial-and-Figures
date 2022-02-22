@@ -78,3 +78,13 @@ std::ostream &operator<<(std::ostream &out, const RegularPolygon &rhs)
     out << " Perimetere = " << rhs.perimeter() << " square_ = " << rhs.square();
     return out;
 }
+
+Polyline RegularPolygon::side() const
+{
+    return side_;
+}
+
+double RegularPolygon::angle() const
+{
+    return angle_;
+}
