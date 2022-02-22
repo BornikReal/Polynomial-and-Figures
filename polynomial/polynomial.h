@@ -42,10 +42,6 @@ public:
      * @param polynimial Полином
      */
     Polynimial(const Polynimial &polynimial);
-    /**
-     * @brief Деструктор
-     * 
-     */
     ~Polynimial() {}
     /**
      * @brief Возвращает степень полинома
