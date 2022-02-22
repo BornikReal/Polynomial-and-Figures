@@ -5,12 +5,12 @@
 #include <math.h>
 
 double Trapezoid::new_square() const {
-    if (points.size() == 0)
+    if (points_.size() == 0)
         return 0;
-    double a = sm_par.get_perimeter();
-    double b = big_par.get_perimeter();
-    double c = sm_side.get_perimeter();
-    double d = big_side.get_perimeter();
+    double a = sm_par_.perimeter();
+    double b = big_par_.perimeter();
+    double c = sm_side_.perimeter();
+    double d = big_side_.perimeter();
     double p = (b - a) * (b - a) + c * c - d * d;
     p /= (2 * (b - a));
     p *= p;
@@ -19,77 +19,77 @@ double Trapezoid::new_square() const {
 }
 
 Trapezoid::Trapezoid(const std::vector <Point> &_points):Polygon(_points) {
-    Polyline a({points[0], points[1]});
-    Polyline b({points[2], points[3]});
-    Polyline c({points[1], points[2]});
-    Polyline d({points[3], points[0]});
+    Polyline a({points_[0], points_[1]});
+    Polyline b({points_[2], points_[3]});
+    Polyline c({points_[1], points_[2]});
+    Polyline d({points_[3], points_[0]});
     if (a.collinear(b) && !c.collinear(d)) {
         if (a < b) {
-            sm_par = a;
-            big_par = b;
+            sm_par_ = a;
+            big_par_ = b;
         }
         else {
-            sm_par = b;
-            big_par = a;
+            sm_par_ = b;
+            big_par_ = a;
         }
         if (c < d) {
-            sm_side = c;
-            big_side = d;
+            sm_side_ = c;
+            big_side_ = d;
         }
         else {
-            sm_side = d;
-            big_side = c;
+            sm_side_ = d;
+            big_side_ = c;
         }
     }
     else if (c.collinear(d) && !a.collinear(b)) {
         if (c < d) {
-            sm_par = c;
-            big_par = d;
+            sm_par_ = c;
+            big_par_ = d;
         }
         else {
-            sm_par = d;
-            big_par = c;
+            sm_par_ = d;
+            big_par_ = c;
         }
         if (a < b) {
-            sm_side = a;
-            big_side = b;
+            sm_side_ = a;
+            big_side_ = b;
         }
         else {
-            sm_side = b;
-            big_side = a;
+            sm_side_ = b;
+            big_side_ = a;
         }
     }
     else {
-        points.resize(0);
-        perimeter = 0;
-        square = 0;
+        points_.resize(0);
+        perimeter_ = 0;
+        square_ = 0;
     }
 }
 
 Trapezoid::Trapezoid(const Point& point1, const Point& point2, const Point& point3, const Point& point4):Polygon({point1, point2, point3, point4}) {
-    Trapezoid(points);
+    Trapezoid(points_);
 }
 
 Trapezoid::Trapezoid(const Trapezoid& new_trapezoid):Polygon(new_trapezoid) {
-    sm_par = new_trapezoid.sm_par;
-    big_par = new_trapezoid.big_par;
-    sm_side = new_trapezoid.sm_side;
-    big_side = new_trapezoid.big_side;
+    sm_par_ = new_trapezoid.sm_par_;
+    big_par_ = new_trapezoid.big_par_;
+    sm_side_ = new_trapezoid.sm_side_;
+    big_side_ = new_trapezoid.big_side_;
 }
 
 Trapezoid& Trapezoid::operator = (const Trapezoid &new_trapezoid) {
-    points.resize(new_trapezoid.points.size());
-    for (int i = 0; i < new_trapezoid.points.size(); i++)
-        points[i] = new_trapezoid.points[i];
-    perimeter = new_trapezoid.perimeter;
-    square = new_trapezoid.square;
+    points_.resize(new_trapezoid.points_.size());
+    for (int i = 0; i < new_trapezoid.points_.size(); i++)
+        points_[i] = new_trapezoid.points_[i];
+    perimeter_ = new_trapezoid.perimeter_;
+    square_ = new_trapezoid.square_;
     return *this;
 }
 
 std::ostream &operator<<(std::ostream &out, const Trapezoid &trapezoid) {
     out << "Trapezoid:";
-    for (int i = 0; i < trapezoid.points.size(); i++)
-        out << " " << trapezoid.points[i];
-    out << " Perimetere = " << trapezoid.get_perimeter() << " Square = " << trapezoid.get_square();
+    for (int i = 0; i < trapezoid.points_.size(); i++)
+        out << " " << trapezoid.points_[i];
+    out << " Perimetere = " << trapezoid.perimeter() << " square_ = " << trapezoid.square();
     return out;
 }

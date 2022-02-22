@@ -1,47 +1,47 @@
 #include <vector>
-#include <ostream>
+#include <iostream>
 
 #pragma once
 
 class Polynimial
 {
 private:
-    std::vector<double> coef;
+    std::vector<double> coef_;
     void fix();
 
 public:
     Polynimial();
     Polynimial(unsigned size, double value);
     Polynimial(const std::vector<double> &_coef);
-    Polynimial(const Polynimial &new_poly);
+    Polynimial(const Polynimial &polynimial);
     ~Polynimial() {}
     int size();
-    Polynimial &operator=(const Polynimial &new_poly);
-    double &operator[](int i);
+    Polynimial &operator=(const Polynimial &rhs);
+    double &operator[](int rhs);
     Polynimial operator+() const;
     Polynimial operator-() const;
-    Polynimial &operator+=(const Polynimial &poly);
-    Polynimial &operator+=(double);
+    Polynimial &operator+=(const Polynimial &rhs);
+    Polynimial &operator+=(double rhs);
     Polynimial &operator++();
-    Polynimial &operator-=(const Polynimial &);
-    Polynimial &operator-=(double num);
+    Polynimial &operator-=(const Polynimial &rhs);
+    Polynimial &operator-=(double rhs);
     Polynimial &operator--();
-    Polynimial &operator*=(const Polynimial &poly);
-    Polynimial &operator*=(double num);
-    Polynimial &operator/=(double num);
-    bool operator==(const Polynimial &poly) const;
-    bool operator!=(const Polynimial &poly) const;
-    Polynimial operator+(const Polynimial &poly) const;
-    Polynimial operator+(double num) const;
+    Polynimial &operator*=(const Polynimial &rhs);
+    Polynimial &operator*=(double rhs);
+    Polynimial &operator/=(double rhs);
+    bool operator==(const Polynimial &rhs) const;
+    bool operator!=(const Polynimial &rhs) const;
+    Polynimial operator+(const Polynimial &rhs) const;
+    Polynimial operator+(double rhs) const;
     Polynimial operator++(int);
-    Polynimial operator-(const Polynimial &poly) const;
+    Polynimial operator-(const Polynimial &rhs) const;
     Polynimial operator-(double num) const;
     Polynimial operator--(int);
-    Polynimial operator*(const Polynimial &poly) const;
-    Polynimial operator*(double num) const;
-    Polynimial operator/(double num) const;
-    friend std::ostream &operator<<(std::ostream &out, const Polynimial &poly);
-    friend std::istream &operator>>(std::istream &in, Polynimial &poly);
-    Polynimial &operator>>(int num);
-    Polynimial &operator<<(int num);
+    Polynimial operator*(const Polynimial &rhs) const;
+    Polynimial operator*(double rhs) const;
+    Polynimial operator/(double rhs) const;
+    friend std::ostream &operator<<(std::ostream &out, const Polynimial &rhs);
+    friend std::istream &operator>>(std::istream &in, Polynimial &rhs);
+    Polynimial &operator>>(int rhs);
+    Polynimial &operator<<(int rhs);
 };
