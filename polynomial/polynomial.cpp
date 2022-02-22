@@ -265,11 +265,7 @@ Polynimial Polynimial::operator*(const Polynimial &rhs) const
 Polynimial Polynimial::operator*(double rhs) const
 {
     if (!rhs)
-    {
-        // Polynimial new_polynimial;
-        // return new_polynimial;
         return Polynimial(0, 0);
-    }
     Polynimial new_polynimial(*this);
     for (int i = 0; i < coef_.size(); i++)
         new_polynimial.coef_[i] *= rhs;
