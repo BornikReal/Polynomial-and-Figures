@@ -14,7 +14,9 @@ double ClosedPolyline::new_perimeter() const
 
 ClosedPolyline::ClosedPolyline(const std::vector<Point> &points) : Polyline(points)
 {
-    if (points.size() <= 2)
+    if ((points_.size() >= 2) && (points_[0] == points_[points_.size() - 1]))
+        points_.pop_back();
+    if (points_.size() <= 2)
         points_.resize(0);
     perimeter_ = new_perimeter();
 }
