@@ -9,12 +9,12 @@ bool RegularPolygon::is_regular_polygon()
     Point a = Point(0, 0) + (points_[0] - points_[1]);
     Point b = Point(0, 0) + (points_[0] - points_[points_.size() - 1]);
     side_ = Polyline({points_[0], points_[1]});
-    angle_ = (a.x() * b.x() + a.y() + b.y()) / (length(a, Point(0, 0)) * length(b, Point(0, 0)));
+    angle_ = abs((a.x() * b.x() + a.y() + b.y()) / (length(a, Point(0, 0)) * length(b, Point(0, 0))));
     for (int i = 1; i < points_.size() - 1; i++)
     {
         a = Point(0, 0) + (points_[i] - points_[i - 1]);
         b = Point(0, 0) + (points_[i] - points_[i + 1]);
-        double new_angle = (a.x() * b.x() + a.y() + b.y()) / (length(a, Point(0, 0)) * length(b, Point(0, 0)));
+        double new_angle = abs((a.x() * b.x() + a.y() + b.y()) / (length(a, Point(0, 0)) * length(b, Point(0, 0))));
         if ((length(points_[i], points_[i - 1]) != side_.perimeter()) || (length(points_[i], points_[i + 1]) != side_.perimeter()) || (new_angle != angle_))
             return false;
     }

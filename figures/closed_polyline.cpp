@@ -40,6 +40,6 @@ std::ostream &operator<<(std::ostream &out, const ClosedPolyline &rhs)
     out << "Closed polyline:";
     for (int i = 0; i < rhs.points_.size(); i++)
         out << " " << rhs.points_[i];
-    out << " Perimetere = " << rhs.perimeter();
+    out << " Perimeter = " << rhs.perimeter();
     return out;
 }

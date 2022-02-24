@@ -23,8 +23,8 @@ double Polygon::new_square() const
     double sq = points_[points_.size() - 1].x() * points_[0].y() - points_[points_.size() - 1].y() * points_[0].x();
     for (int i = 0; i < points_.size() - 1; i++)
     {
-        sq += points_[i].x() + points_[i + 1].y();
-        sq -= points_[i].y() + points_[i + 1].x();
+        sq += points_[i].x() * points_[i + 1].y();
+        sq -= points_[i].y() * points_[i + 1].x();
     }
     return 0.5 * abs(sq);
 }
