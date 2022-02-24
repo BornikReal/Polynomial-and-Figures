@@ -34,12 +34,3 @@ ClosedPolyline &ClosedPolyline::operator=(const ClosedPolyline &rhs)
     perimeter_ = new_perimeter();
     return *this;
 }
-
-std::ostream &operator<<(std::ostream &out, const ClosedPolyline &rhs)
-{
-    out << "Closed polyline:";
-    for (int i = 0; i < rhs.points_.size(); i++)
-        out << " " << rhs.points_[i];
-    out << " Perimeter = " << rhs.perimeter();
-    return out;
-}

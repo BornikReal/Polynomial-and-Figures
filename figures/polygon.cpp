@@ -61,10 +61,10 @@ Polygon &Polygon::operator=(const Polygon &rhs)
 
 std::ostream &operator<<(std::ostream &out, const Polygon &rhs)
 {
-    out << "Polygon:";
+    out << "{";
     for (int i = 0; i < rhs.points_.size(); i++)
-        out << " " << rhs.points_[i];
-    out << " Perimetere = " << rhs.perimeter() << " square_ = " << rhs.square();
+        out << rhs.points_[i] << ", ";
+    out << "Perimeter = " << rhs.perimeter() << ", square = " << rhs.square() << "}";
     return out;
 }
 

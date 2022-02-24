@@ -102,15 +102,6 @@ Trapezoid &Trapezoid::operator=(const Trapezoid &rhs)
     return *this;
 }
 
-std::ostream &operator<<(std::ostream &out, const Trapezoid &rhs)
-{
-    out << "Trapezoid:";
-    for (int i = 0; i < rhs.points_.size(); i++)
-        out << " " << rhs.points_[i];
-    out << " Perimetere = " << rhs.perimeter() << " square_ = " << rhs.square();
-    return out;
-}
-
 Polyline Trapezoid::sm_par() const {
     return sm_par_;
 }

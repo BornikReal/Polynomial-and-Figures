@@ -114,10 +114,10 @@ Point Polyline::operator[](int rhs) const
 
 std::ostream &operator<<(std::ostream &out, const Polyline &rhs)
 {
-    out << "Polyline:";
+    out << "{";
     for (int i = 0; i < rhs.points_.size(); i++)
-        out << " " << rhs.points_[i];
-    out << " Perimeter = " << rhs.perimeter();
+        out << rhs.points_[i] << ", ";
+    out << "Perimeter = " << rhs.perimeter() << "}";
     return out;
 }
 

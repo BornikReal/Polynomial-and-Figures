@@ -38,12 +38,3 @@ Triangle &Triangle::operator=(const Triangle &rhs)
     square_ = rhs.square_;
     return *this;
 }
-
-std::ostream &operator<<(std::ostream &out, const Triangle &rhs)
-{
-    out << "Triangle:";
-    for (int i = 0; i < rhs.points_.size(); i++)
-        out << " " << rhs.points_[i];
-    out << " Perimetere = " << rhs.perimeter() << " square_ = " << rhs.square();
-    return out;
-}

@@ -70,15 +70,6 @@ bool RegularPolygon::operator!=(const RegularPolygon &rhs) const
     return true;
 }
 
-std::ostream &operator<<(std::ostream &out, const RegularPolygon &rhs)
-{
-    out << "Right polygon:";
-    for (int i = 0; i < rhs.points_.size(); i++)
-        out << " " << rhs.points_[i];
-    out << " Perimetere = " << rhs.perimeter() << " square_ = " << rhs.square();
-    return out;
-}
-
 Polyline RegularPolygon::side() const
 {
     return side_;

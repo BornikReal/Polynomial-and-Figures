@@ -99,7 +99,7 @@ protected:
      *
      * @return double
      */
-    double new_perimeter() const;
+    virtual double new_perimeter() const;
 
 public:
     /**
@@ -162,7 +162,7 @@ protected:
      *
      * @return double
      */
-    double new_perimeter() const;
+    double new_perimeter() const override;
 
 public:
     /**
@@ -174,7 +174,6 @@ public:
     ClosedPolyline(const ClosedPolyline &new_closed_polyline);
     ~ClosedPolyline() {}
     ClosedPolyline &operator=(const ClosedPolyline &rhs);
-    friend std::ostream &operator<<(std::ostream &out, const ClosedPolyline &rhs);
 };
 
 class Polygon : public ClosedPolyline
@@ -197,7 +196,7 @@ protected:
      *
      * @return double
      */
-    double new_square() const;
+    virtual double new_square() const;
 
 public:
     Polygon();
@@ -217,7 +216,7 @@ private:
      *
      * @return double
      */
-    double new_square() const;
+    double new_square() const override;
 
 public:
     Triangle(){};
@@ -226,7 +225,6 @@ public:
     Triangle(const Triangle &new_triangle);
     ~Triangle() {}
     Triangle &operator=(const Triangle &rhs);
-    friend std::ostream &operator<<(std::ostream &out, const Triangle &rhs);
 };
 
 class Trapezoid final : public Polygon
@@ -242,7 +240,7 @@ private:
      *
      * @return double
      */
-    double new_square() const;
+    double new_square() const override;
 
 public:
     Trapezoid(){};
@@ -251,7 +249,6 @@ public:
     Trapezoid(const Trapezoid &new_trapezoid);
     ~Trapezoid() {}
     Trapezoid &operator=(const Trapezoid &rhs);
-    friend std::ostream &operator<<(std::ostream &out, const Trapezoid &rhs);
     Polyline sm_par() const;
     Polyline big_par() const;
     Polyline sm_side() const;
@@ -283,7 +280,7 @@ private:
      *
      * @return double
      */
-    double new_square() const;
+    double new_square() const override;
 
 public:
     RegularPolygon(){};
@@ -293,7 +290,6 @@ public:
     RegularPolygon &operator=(const RegularPolygon &rhs);
     bool operator==(const RegularPolygon &rhs) const;
     bool operator!=(const RegularPolygon &rhs) const;
-    friend std::ostream &operator<<(std::ostream &out, const RegularPolygon &rhs);
     Polyline side() const;
     double angle() const;
 };
