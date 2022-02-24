@@ -53,9 +53,14 @@ Polynimial &Polynimial::operator=(const Polynimial &rhs)
     return *this;
 }
 
-double &Polynimial::operator[](int i)
+double Polynimial::operator[](int rhs) const
 {
-    return coef_[i];
+    return coef_[rhs];
+}
+
+double &Polynimial::operator[](int rhs)
+{
+    return coef_[rhs];
 }
 
 Polynimial Polynimial::operator+() const

@@ -12,19 +12,19 @@ class Point
 private:
     /**
      * @brief Координата x точки
-     * 
+     *
      */
     double x_;
     /**
      * @brief Координата y точки
-     * 
+     *
      */
     double y_;
 
 public:
     /**
      * @brief Создаёт точку с нулевыми координатами
-     * 
+     *
      */
     Point();
     Point(double x, double y);
@@ -35,30 +35,30 @@ public:
     bool operator!=(const Point &rhs) const;
     /**
      * @brief Возвращает ссылку на точку, являющейся последней точкой ломанной, отложенной от текущей точки
-     * 
-     * @param rhs 
-     * @return Point& 
+     *
+     * @param rhs
+     * @return Point&
      */
     Point &operator+=(const Polyline &rhs);
     /**
      * @brief Возвращает ссылку на точку, являющейся последней точкой ломанной, отложенной от текущей точки и имеющей обратный порядок вершин
-     * 
-     * @param rhs 
-     * @return Point& 
+     *
+     * @param rhs
+     * @return Point&
      */
     Point &operator-=(const Polyline &rhs);
     /**
      * @brief Возвращает точку, являющейся последней точкой ломанной, отложенной от текущей точки
-     * 
-     * @param rhs 
-     * @return Point& 
+     *
+     * @param rhs
+     * @return Point&
      */
     Point operator+(const Polyline &rhs) const;
     /**
      * @brief Возвращает ссылку на точку, являющейся последней точкой ломанной, отложенной от текущей точки и имеющей обратный порядок вершин
-     * 
-     * @param rhs 
-     * @return Point& 
+     *
+     * @param rhs
+     * @return Point&
      */
     Point operator-(const Polyline &rhs) const;
     friend std::ostream &operator<<(std::ostream &out, const Point &rhs);
@@ -66,10 +66,10 @@ public:
     double y() const;
     /**
      * @brief Выводит расстояние между двумя точками
-     * 
-     * @param point1 
-     * @param point2 
-     * @return double 
+     *
+     * @param point1
+     * @param point2
+     * @return double
      */
     friend double length(const Point &point1, const Point &point2);
 };
@@ -81,30 +81,30 @@ class Polyline
 protected:
     /**
      * @brief Массив вершин ломанной
-     * 
+     *
      */
     std::vector<Point> points_;
     /**
      * @brief Длина ломанной
-     * 
+     *
      */
     double perimeter_;
     /**
      * @brief Удаляет из ломанной повторяющиеся подряд вершины
-     * 
+     *
      */
     void fix();
     /**
      * @brief Расчитывает новую длину ломанной
-     * 
-     * @return double 
+     *
+     * @return double
      */
     double new_perimeter() const;
 
 public:
     /**
      * @brief Создаёт ломанную из 0 точек
-     * 
+     *
      */
     Polyline();
     Polyline(const std::vector<Point> &points);
@@ -113,32 +113,33 @@ public:
     Polyline &operator=(const Polyline &rhs);
     /**
      * @brief Сравнение всех вершин ломанных
-     * 
+     *
      */
     bool operator==(const Polyline &rhs) const;
     bool operator!=(const Polyline &rhs) const;
     /**
      * @brief Сравнение длин ломанных
-     * 
+     *
      */
     bool operator>(const Polyline &rhs) const;
     bool operator>=(const Polyline &rhs) const;
     bool operator<(const Polyline &rhs) const;
     bool operator<=(const Polyline &rhs) const;
-    Point &operator[](int pos);
+    Point operator[](int rhs) const;
+    Point &operator[](int rhs);
     friend std::ostream &operator<<(std::ostream &out, const Polyline &rhs);
     /**
      * @brief Возвращает количество вершин ломанной
-     * 
-     * @return int 
+     *
+     * @return int
      */
     int size() const;
     /**
      * @brief Проверка на параллельность каждых отрезков ломанных
-     * 
-     * @param polyline 
-     * @return true 
-     * @return false 
+     *
+     * @param polyline
+     * @return true
+     * @return false
      */
     bool collinear(const Polyline &polyline) const;
     double perimeter() const;
@@ -146,10 +147,10 @@ public:
 
 /**
  * @brief Возвращет ломанную из двух вершин
- * 
+ *
  * @param point1 Начала ломанной
  * @param point2 Конец ломанной
- * @return Polyline 
+ * @return Polyline
  */
 Polyline operator-(const Point &point1, const Point &point2);
 
@@ -158,15 +159,15 @@ class ClosedPolyline : public Polyline
 protected:
     /**
      * @brief Расчитывает новую длину ломанной
-     * 
-     * @return double 
+     *
+     * @return double
      */
     double new_perimeter() const;
 
 public:
     /**
      * @brief Возвращает замкнутую ломанную из 0 вершин
-     * 
+     *
      */
     ClosedPolyline(){};
     ClosedPolyline(const std::vector<Point> &points);
@@ -181,20 +182,20 @@ class Polygon : public ClosedPolyline
 protected:
     /**
      * @brief Площадь многоугольника
-     * 
+     *
      */
     double square_;
     /**
      * @brief Проверка на то - является ли данный набор точек многоугольником
-     * 
-     * @return true 
-     * @return false 
+     *
+     * @return true
+     * @return false
      */
     bool is_polygon() const;
     /**
      * @brief Расчитывает новую площадь многоугольника
-     * 
-     * @return double 
+     *
+     * @return double
      */
     double new_square() const;
 
@@ -213,8 +214,8 @@ class Triangle final : public Polygon
 private:
     /**
      * @brief Расчитывает новую площадь треугольника
-     * 
-     * @return double 
+     *
+     * @return double
      */
     double new_square() const;
 
@@ -233,13 +234,13 @@ class Trapezoid final : public Polygon
 private:
     /**
      * @brief Меньшая и большая параллельные стороны, меньшая и большая боковые стороны
-     * 
+     *
      */
     Polyline sm_par_, big_par_, sm_side_, big_side_;
     /**
      * @brief Расчитывает новую площадь трапеции
-     * 
-     * @return double 
+     *
+     * @return double
      */
     double new_square() const;
 
@@ -262,25 +263,25 @@ class RegularPolygon final : public Polygon
 private:
     /**
      * @brief Сторона правильного многоугольника
-     * 
+     *
      */
     Polyline side_;
     /**
      * @brief Угол правильного многоугольника
-     * 
+     *
      */
     double angle_;
     /**
      * @brief Проверка на то - является ли данный набор точек правильным многоугольником
-     * 
-     * @return true 
-     * @return false 
+     *
+     * @return true
+     * @return false
      */
     bool is_regular_polygon();
     /**
      * @brief Расчитывает новую площадь правильного многоугольника
-     * 
-     * @return double 
+     *
+     * @return double
      */
     double new_square() const;
 

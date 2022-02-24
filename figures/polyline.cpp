@@ -100,9 +100,14 @@ bool Polyline::operator<=(const Polyline &rhs) const
     return false;
 }
 
-Point &Polyline::operator[](int pos)
+Point &Polyline::operator[](int rhs)
 {
-    return points_[pos];
+    return points_[rhs];
+}
+
+Point Polyline::operator[](int rhs) const
+{
+    return points_[rhs];
 }
 
 std::ostream &operator<<(std::ostream &out, const Polyline &rhs)
