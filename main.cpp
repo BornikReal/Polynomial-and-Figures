@@ -6,16 +6,10 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    vector <double> a = {1, 0, 0, 1};
-    vector <double> b = {1, 1};
+    vector <double> a = {2, 2, 2};
     Polynimial t(a);
-    Polynimial t1(b);
-    t /= t1;
-    // t -= (t1 << 1);
-    // cout << t << endl;
-    // cout << t << "|" << t1 << endl;
     cout << t << endl;
-
+    cout << t(2) << endl;
     // vector <Point> a = {Point(0, 0), Point(2, 0), Point(2, 2), Point(0, 2)};
     // vector <Point> b = {Point(0, 0), Point(2, 0), Point(2, 2)};
     // vector <Point> c = {Point(0, 0), Point(3, 0), Point(2, 2), Point(0, 2)};
