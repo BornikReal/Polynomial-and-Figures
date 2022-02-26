@@ -43,7 +43,7 @@ public:
      *
      * @return int
      */
-    int size();
+    int size() const;
     Polynimial &operator=(const Polynimial &rhs);
     double operator[](int rhs) const;
     double &operator[](int rhs);
@@ -72,6 +72,7 @@ public:
     Polynimial &operator--();
     Polynimial &operator*=(const Polynimial &rhs);
     Polynimial &operator*=(double rhs);
+    Polynimial &operator/=(const Polynimial &rhs);
     Polynimial &operator/=(double rhs);
     bool operator==(const Polynimial &rhs) const;
     bool operator!=(const Polynimial &rhs) const;
@@ -93,6 +94,7 @@ public:
     Polynimial operator--(int);
     Polynimial operator*(const Polynimial &rhs) const;
     Polynimial operator*(double rhs) const;
+    Polynimial operator/(const Polynimial &rhs) const;
     Polynimial operator/(double rhs) const;
     /**
      * @brief Выводит полином в виде a1 * x^n + a2 * x^(n - 1) + ... + a(n-1) * x + an
@@ -135,5 +137,5 @@ public:
      *
      * @return Polynimial
      */
-    Polynimial primitive(double con = 0) const;
+    Polynimial primitive(double con) const;
 };

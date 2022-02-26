@@ -20,10 +20,11 @@ void Polynimial::fix()
 
 Polynimial::Polynimial() {}
 
-Polynimial::Polynimial(unsigned size, double value)
+Polynimial::Polynimial(unsigned size, double value = 0)
 {
-    if ((!size) || (value != 0))
-        coef_.resize(size, value);
+    coef_.resize(size, value);
+    if (size && !value)
+        coef_[coef_.size() - 1] = 1;
 }
 
 Polynimial::Polynimial(const std::vector<double> &_coef)
@@ -41,7 +42,7 @@ Polynimial::Polynimial(const Polynimial &new_polynimial)
         coef_[i] = new_polynimial.coef_[i];
 }
 
-int Polynimial::size()
+int Polynimial::size() const
 {
     return coef_.size();
 }
@@ -169,6 +170,27 @@ Polynimial &Polynimial::operator*=(double rhs)
     return *this;
 }
 
+Polynimial &Polynimial::operator/=(const Polynimial &rhs)
+{
+    if (coef_.size() < rhs.coef_.size())
+    {
+        *this = Polynimial();
+        return *this;
+    }
+    Polynimial temp(*this);
+    coef_.resize(temp.size() - rhs.coef_.size() + 1);
+    for (int i = 0; i < coef_.size() - 2; i++)
+        coef_[i] = 0;
+    double new_coef;
+    while (temp.size() >= rhs.coef_.size())
+    {
+        new_coef = temp.coef_[temp.size() - 1] / rhs.coef_[rhs.coef_.size() - 1];
+        coef_[temp.size() - rhs.coef_.size()] = new_coef;
+        temp -= (rhs << (temp.size() - rhs.coef_.size())) * new_coef;
+    }
+    return *this;
+}
+
 Polynimial &Polynimial::operator/=(double rhs)
 {
     for (int i = 0; i < coef_.size(); i++)
@@ -278,6 +300,22 @@ Polynimial Polynimial::operator*(double rhs) const
     return new_polynimial;
 }
 
+Polynimial Polynimial::operator/(const Polynimial &rhs) const
+{
+    if (coef_.size() < rhs.coef_.size())
+        return Polynimial();
+    Polynimial new_polynimial(coef_.size() - rhs.coef_.size() + 1);
+    Polynimial temp(*this);
+    double new_coef;
+    while (temp.size() >= rhs.coef_.size())
+    {
+        new_coef = temp.coef_[temp.size() - 1] / rhs.coef_[rhs.coef_.size() - 1];
+        new_polynimial.coef_[temp.size() - rhs.coef_.size()] = new_coef;
+        temp -= (rhs << (temp.size() - rhs.coef_.size())) * new_coef;
+    }
+    return new_polynimial;
+}
+
 Polynimial Polynimial::operator/(double rhs) const
 {
     Polynimial new_polynimial(*this);
@@ -353,14 +391,16 @@ Polynimial Polynimial::operator>>(int rhs) const
     return new_polynimial;
 }
 
-Polynimial Polynimial::derivative() const {
+Polynimial Polynimial::derivative() const
+{
     Polynimial new_polynimial(*this >> 1);
     for (int i = 0; i < new_polynimial.coef_.size(); i++)
-        new_polynimial.coef_[i] *= (i+1);
+        new_polynimial.coef_[i] *= (i + 1);
     return new_polynimial;
 }
 
-Polynimial Polynimial::primitive(double con = 0) const {
+Polynimial Polynimial::primitive(double con = 0) const
+{
     Polynimial new_polynimial(*this << 1);
     for (int i = 1; i < new_polynimial.coef_.size(); i++)
         new_polynimial.coef_[i] /= i;
