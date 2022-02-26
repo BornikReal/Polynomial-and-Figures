@@ -433,11 +433,13 @@ double Polynimial::root(double start, double end, double accuracy) const
         return start;
     if (temp(end) == 0)
         return end;
-    end += 0.000000000000001;
+    double fixer = 0.000000000000001;
+    end += fixer;
     while (abs(end - start) > accuracy)
     {
         start = end - (end - start) * temp(end) / (temp(end) - temp(start));
         end = start - (start - end) * temp(start) / (temp(start) - temp(end));
+        end += fixer;
     }
     return end;
 }

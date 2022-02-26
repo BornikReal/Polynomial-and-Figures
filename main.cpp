@@ -6,11 +6,11 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    vector <double> a = {6, -5, 1};
+    vector <double> a = {-6, 11, -6, 1};
     Polynimial t(a);
     cout << t << endl;
-    cout << t.root(1, 4, 0.001) << endl;
-    
+    cout << t.root(0, 4, 0.001) << endl;
+
     // vector <Point> a = {Point(0, 0), Point(2, 0), Point(2, 2), Point(0, 2)};
     // vector <Point> b = {Point(0, 0), Point(2, 0), Point(2, 2)};
     // vector <Point> c = {Point(0, 0), Point(3, 0), Point(2, 2), Point(0, 2)};
