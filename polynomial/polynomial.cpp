@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <math.h>
 
 void Polynimial::fix()
 {
@@ -308,7 +309,7 @@ std::ostream &operator<<(std::ostream &out, const Polynimial &rhs)
         }
         t = abs(rhs.coef_[i]);
         if (t != 1)
-            out << abs(rhs.coef_[i]) << "x";
+            out << t << "x";
         else
             out << "x";
         if (i != 1)
@@ -328,24 +329,40 @@ std::istream &operator>>(std::istream &in, Polynimial &rhs)
     return in;
 }
 
-Polynimial &Polynimial::operator<<(int rhs)
+Polynimial Polynimial::operator<<(int rhs) const
 {
     if (rhs <= 0)
         return *this;
-    coef_.resize(coef_.size() + rhs);
-    for (int i = (coef_.size() - 1); i >= rhs; i--)
-        coef_[i] = coef_[i - rhs];
+    Polynimial new_polynimial(*this);
+    new_polynimial.coef_.resize(coef_.size() + rhs);
+    for (int i = (new_polynimial.coef_.size() - 1); i >= rhs; i--)
+        new_polynimial.coef_[i] = new_polynimial.coef_[i - rhs];
     for (int i = 0; i < rhs; i++)
-        coef_[i] = 0;
-    return *this;
+        new_polynimial.coef_[i] = 0;
+    return new_polynimial;
 }
 
-Polynimial &Polynimial::operator>>(int rhs)
+Polynimial Polynimial::operator>>(int rhs) const
 {
     if (rhs <= 0)
         return *this;
-    for (int i = 0; i <= (coef_.size() - rhs); i++)
-        coef_[i] = coef_[i + rhs];
-    coef_.resize(coef_.size() - rhs);
-    return *this;
+    Polynimial new_polynimial(*this);
+    for (int i = 0; i <= (new_polynimial.coef_.size() - rhs); i++)
+        new_polynimial.coef_[i] = new_polynimial.coef_[i + rhs];
+    new_polynimial.coef_.resize(coef_.size() - rhs);
+    return new_polynimial;
+}
+
+Polynimial Polynimial::derivative() const {
+    Polynimial new_polynimial(*this >> 1);
+    for (int i = 0; i < new_polynimial.coef_.size(); i++)
+        new_polynimial.coef_[i] *= (i+1);
+    return new_polynimial;
+}
+
+Polynimial Polynimial::primitive(double con = 0) const {
+    Polynimial new_polynimial(*this << 1);
+    for (int i = 1; i < new_polynimial.coef_.size(); i++)
+        new_polynimial.coef_[i] /= i;
+    return (new_polynimial + con);
 }

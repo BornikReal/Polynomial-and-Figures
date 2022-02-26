@@ -33,7 +33,7 @@ public:
     /**
      * @brief Создаём полином, где коэффициенты являются членами заданного вектора
      *
-     * @param _coef Вектор с коэффициентами
+     * @param _coef
      */
     Polynimial(const std::vector<double> &_coef);
     Polynimial(const Polynimial &polynimial);
@@ -41,7 +41,7 @@ public:
     /**
      * @brief Возвращает степень полинома
      *
-     * @return int Степень полинома
+     * @return int
      */
     int size();
     Polynimial &operator=(const Polynimial &rhs);
@@ -50,181 +50,90 @@ public:
     /**
      * @brief Возращает текущий полином
      *
-     * @return Polynimial Текущий полином
+     * @return Polynimial
      */
     Polynimial operator+() const;
     /**
      * @brief Возращает текущий полином с отрицательным коэффициентами
      *
-     * @return Polynimial Изменённый полином
+     * @return Polynimial
      */
     Polynimial operator-() const;
-    /**
-     * @brief Прибавляет к текущему полиному заданный полином
-     *
-     * @param rhs Полином
-     * @return Polynimial& Ссылка на изменённый полином
-     */
     Polynimial &operator+=(const Polynimial &rhs);
-    /**
-     * @brief Прибавляет к текущему полиному заданное число
-     *
-     * @param rhs Число
-     * @return Polynimial& Ссылка на изменённый полином
-     */
     Polynimial &operator+=(double rhs);
     /**
      * @brief Прибавляет к текущему полиному 1
      *
-     * @return Polynimial& Ссылка на изменённый полином
+     * @return Polynimial&
      */
     Polynimial &operator++();
-    /**
-     * @brief Отнимает от текущего полинома заданный полином
-     *
-     * @param rhs Полином
-     * @return Polynimial& Ссылка на изменённый полином
-     */
     Polynimial &operator-=(const Polynimial &rhs);
-    /**
-     * @brief Отнимает от текущего полинома заданное число
-     *
-     * @param rhs Число
-     * @return Polynimial& Ссылка на изменённый полином
-     */
     Polynimial &operator-=(double rhs);
-    /**
-     * @brief Отнимает от текущего полинома 1
-     *
-     * @return Polynimial& Ссылка на изменённый полином
-     */
     Polynimial &operator--();
-    /**
-     * @brief Умножает текущий полином на заданный полином
-     *
-     * @param rhs Полином
-     * @return Polynimial& Ссылка на изменённый полином
-     */
     Polynimial &operator*=(const Polynimial &rhs);
-    /**
-     * @brief Умножает текущий полином на заданное число
-     *
-     * @param rhs Число
-     * @return Polynimial& Ссылка на изменённый полином
-     */
     Polynimial &operator*=(double rhs);
-    /**
-     * @brief Делит текущий полином на заданное число
-     *
-     * @param rhs Число
-     * @return Polynimial& Ссылка на изменённый полином
-     */
     Polynimial &operator/=(double rhs);
-    /**
-     * @brief Проверяет равны ли текущий и заданный полином
-     *
-     * @param rhs Полином
-     * @return true Если равны
-     * @return false Если не равны
-     */
     bool operator==(const Polynimial &rhs) const;
-    /**
-     * @brief Проверяет не равны ли текущий и заданный полином
-     *
-     * @param rhs Полином
-     * @return true Если не равны
-     * @return false Если равны
-     */
     bool operator!=(const Polynimial &rhs) const;
-    /**
-     * @brief Возвращает сумму текущего и заданного полинома
-     *
-     * @param rhs Полином
-     * @return Polynimial Новый полином
-     */
     Polynimial operator+(const Polynimial &rhs) const;
-    /**
-     * @brief Возвращает сумму текущего полинома и заданного числа
-     *
-     * @param rhs Число
-     * @return Polynimial Новый полином
-     */
     Polynimial operator+(double rhs) const;
     /**
      * @brief Прибавляет к текущему полиному 1
      *
-     * @return Polynimial Неизменённый полином
+     * @return Polynimial
      */
     Polynimial operator++(int);
-    /**
-     * @brief Возвращает разность текущего и заданного полинома
-     *
-     * @param rhs Полином
-     * @return Polynimial Новый полином
-     */
     Polynimial operator-(const Polynimial &rhs) const;
-    /**
-     * @brief Возвращает разность текущего полинома и заданного числа
-     *
-     * @param rhs Число
-     * @return Polynimial Новый полином
-     */
     Polynimial operator-(double num) const;
     /**
      * @brief Отнимает от текущего полинома 1
      *
-     * @return Polynimial Неизменённый полином
+     * @return Polynimial
      */
     Polynimial operator--(int);
-    /**
-     * @brief Возвращает произведение текущего и заданного полинома
-     *
-     * @param rhs Полином
-     * @return Polynimial Новый полином
-     */
     Polynimial operator*(const Polynimial &rhs) const;
-    /**
-     * @brief Возвращает произведение текущего полинома и заданного числа
-     *
-     * @param rhs Число
-     * @return Polynimial Новый полином
-     */
     Polynimial operator*(double rhs) const;
-    /**
-     * @brief Возвращает отеошение текущего полинома и заданного числа
-     *
-     * @param rhs Число
-     * @return Polynimial Новый полином
-     */
     Polynimial operator/(double rhs) const;
     /**
-     * @brief Выводит полином в заданный поток
+     * @brief Выводит полином в виде a1 * x^n + a2 * x^(n - 1) + ... + a(n-1) * x + an
      *
-     * @param out Поток вывода
-     * @param rhs Полином
+     * @param out
+     * @param rhs
      * @return std::ostream&
      */
     friend std::ostream &operator<<(std::ostream &out, const Polynimial &rhs);
     /**
-     * @brief Ввод полинома через заданный поток
+     * @brief Ввод полинома в формате n a1 a2 a3 ... an, где n - количество коэффициентов, а ai - коэффициент при x в степени i
      *
-     * @param in Поток ввода
-     * @param rhs Полином
+     * @param in
+     * @param rhs
      * @return std::istream&
      */
     friend std::istream &operator>>(std::istream &in, Polynimial &rhs);
     /**
      * @brief Увеличивает степень полинома на заданное число
      *
-     * @param rhs Число
-     * @return Polynimial& Ссылка на изменённый полином
+     * @param rhs
+     * @return Polynimial
      */
-    Polynimial &operator<<(int rhs);
+    Polynimial operator<<(int rhs) const;
     /**
      * @brief Уменьшает степень полинома на заданное число
      *
-     * @param rhs Число
-     * @return Polynimial& Ссылка на изменённый полином
+     * @param rhs
+     * @return Polynimial
      */
-    Polynimial &operator>>(int rhs);
+    Polynimial operator>>(int rhs) const;
+    /**
+     * @brief Возвращает производную полинома
+     *
+     * @return Polynimial
+     */
+    Polynimial derivative() const;
+    /**
+     * @brief Возвращает первообразную полинома
+     *
+     * @return Polynimial
+     */
+    Polynimial primitive(double con = 0) const;
 };
