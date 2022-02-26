@@ -6,7 +6,14 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    Polynimial t({1, 2, 0.3});
+    vector <double> a = {1, 0, 0, 1};
+    vector <double> b = {1, 1};
+    Polynimial t(a);
+    Polynimial t1(b);
+    t /= t1;
+    // t -= (t1 << 1);
+    // cout << t << endl;
+    // cout << t << "|" << t1 << endl;
     cout << t << endl;
 
     // vector <Point> a = {Point(0, 0), Point(2, 0), Point(2, 2), Point(0, 2)};
