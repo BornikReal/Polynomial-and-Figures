@@ -370,9 +370,9 @@ std::ostream &operator<<(std::ostream &out, const Polynimial &rhs)
             out << "^" << i;
     }
     if (rhs.coef_[0] > 0)
-        out << " + " << rhs.coef_[0];
+        out << " + " << abs(rhs.coef_[0]);
     else if (rhs.coef_[0] != 0)
-        out << " - " << rhs.coef_[0];
+        out << " - " << abs(rhs.coef_[0]);
     return out;
 }
 
