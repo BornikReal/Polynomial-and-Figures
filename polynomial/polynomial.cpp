@@ -370,9 +370,9 @@ std::ostream &operator<<(std::ostream &out, const Polynimial &rhs)
             out << "^" << i;
     }
     if (rhs.coef_[0] > 0)
-        out << " + " << t;
+        out << " + " << rhs.coef_[0];
     else if (rhs.coef_[0] != 0)
-        out << " - " << t;
+        out << " - " << rhs.coef_[0];
     return out;
 }
 
@@ -424,4 +424,20 @@ Polynimial Polynimial::primitive(double con = 0) const
     for (int i = 1; i < new_polynimial.coef_.size(); i++)
         new_polynimial.coef_[i] /= i;
     return (new_polynimial + con);
+}
+
+double Polynimial::root(double start, double end, double accuracy) const
+{
+    Polynimial temp(*this);
+    if (temp(start) == 0)
+        return start;
+    if (temp(end) == 0)
+        return end;
+    end += 0.000000000000001;
+    while (abs(end - start) > accuracy)
+    {
+        start = end - (end - start) * temp(end) / (temp(end) - temp(start));
+        end = start - (start - end) * temp(start) / (temp(start) - temp(end));
+    }
+    return end;
 }
