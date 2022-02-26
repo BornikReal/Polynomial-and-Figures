@@ -6,7 +6,7 @@
 
 void Polynimial::fix()
 {
-    int new_size;
+    int new_size = 0;
     for (int i = coef_.size() - 1; i >= 0; i--)
     {
         if (coef_[i] != 0)
@@ -27,11 +27,11 @@ Polynimial::Polynimial(unsigned size, double value = 0)
         coef_[coef_.size() - 1] = 1;
 }
 
-Polynimial::Polynimial(const std::vector<double> &_coef)
+Polynimial::Polynimial(const std::vector<double> &coef)
 {
-    coef_.resize(_coef.size());
-    for (int i = 0; i < _coef.size(); i++)
-        coef_[i] = _coef[i];
+    coef_.resize(coef.size());
+    for (int i = 0; i < coef.size(); i++)
+        coef_[i] = coef[i];
     fix();
 }
 
@@ -63,6 +63,22 @@ double Polynimial::operator[](int rhs) const
 double &Polynimial::operator[](int rhs)
 {
     return coef_[rhs];
+}
+
+double Polynimial::operator()(double rhs) const
+{
+    if (coef_.size() == 0)
+        return 0;
+    if (rhs == 0)
+        return coef_[0];
+    double result = coef_[0];
+    double var = rhs;
+    for (int i = 1; i < coef_.size(); i++)
+    {
+        result += var * coef_[i];
+        var *= rhs;
+    }
+    return result;
 }
 
 Polynimial Polynimial::operator+() const
@@ -327,18 +343,18 @@ Polynimial Polynimial::operator/(double rhs) const
 std::ostream &operator<<(std::ostream &out, const Polynimial &rhs)
 {
     if (rhs.coef_.size() == 0)
+    {
+        out << 0;
         return out;
-    if ((rhs.coef_.size() >= 1) && (rhs.coef_[0] != 0))
-        out << rhs.coef_[0];
+    }
     double t;
-    bool d = false;
-    if (rhs.coef_[0] != 0)
-        d = true;
-    for (int i = 1; i < rhs.coef_.size(); i++)
+    if (rhs.coef_[rhs.coef_.size() - 1] < 0)
+        out << "-";
+    for (int i = rhs.coef_.size() - 1; i >= 1; i--)
     {
         if (rhs.coef_[i] == 0)
             continue;
-        else if (d)
+        else if (i != (rhs.coef_.size() - 1))
         {
             if (rhs.coef_[i] > 0)
                 out << " + ";
@@ -352,8 +368,11 @@ std::ostream &operator<<(std::ostream &out, const Polynimial &rhs)
             out << "x";
         if (i != 1)
             out << "^" << i;
-        d = true;
     }
+    if (rhs.coef_[0] > 0)
+        out << " + " << t;
+    else if (rhs.coef_[0] != 0)
+        out << " - " << t;
     return out;
 }
 

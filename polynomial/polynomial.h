@@ -35,7 +35,7 @@ public:
      *
      * @param _coef
      */
-    Polynimial(const std::vector<double> &_coef);
+    Polynimial(const std::vector<double> &coef);
     Polynimial(const Polynimial &polynimial);
     ~Polynimial() {}
     /**
@@ -47,6 +47,7 @@ public:
     Polynimial &operator=(const Polynimial &rhs);
     double operator[](int rhs) const;
     double &operator[](int rhs);
+    double operator()(double rhs) const;
     /**
      * @brief Возращает текущий полином
      *
