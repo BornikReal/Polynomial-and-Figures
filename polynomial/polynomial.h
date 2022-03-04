@@ -1,4 +1,5 @@
 #include <vector>
+#include <map>
 #include <iostream>
 
 #pragma once
@@ -10,7 +11,9 @@ private:
      * @brief Массив с коэффициентами полинома, где i-элемент массива - коэффициент при x^i
      *
      */
-    std::vector<double> coef_;
+    // std::vector<double> coef_;
+    std::map<int, double> coef_;
+    int degree_ = 0;
     /**
      * @brief Исправляет полином так, чтобы старший одночлен имеел ненулевой коэффициент
      *
@@ -36,6 +39,7 @@ public:
      * @param _coef
      */
     Polynimial(const std::vector<double> &coef);
+    Polynimial(const std::map<int, double> &coef);
     Polynimial(const Polynimial &polynimial);
     ~Polynimial() {}
     /**
@@ -43,7 +47,7 @@ public:
      *
      * @return int
      */
-    int size() const;
+    int degree() const;
     Polynimial &operator=(const Polynimial &rhs);
     double operator[](int rhs) const;
     double &operator[](int rhs);

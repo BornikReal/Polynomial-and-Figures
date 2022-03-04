@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <map>
 #include "polynomial/polynomial.h"
 #include "figures/figures.h"
 using namespace std;
@@ -7,19 +8,24 @@ using namespace std;
 int main(int argc, char* argv[])
 {
     vector <double> x = {-6, 11, -6, 1};
-    vector <double> y = {2, 0, 1};
+    vector <double> y = {1, -2, 1};
     Polynimial t(x);
     Polynimial t1(y);
     cout << t << endl;
     cout << t1 << endl;
+    cout << "----------------" << endl;
+    cout << t(1) << endl;
     cout << t.root(0, 4, 0.001) << endl;
     cout << t1.root(-4, 4, 0.001) << endl;
     cout << t + t1 << endl;
     cout << t * t1 << endl;
     cout << t / t1 << endl;
+    cout << (t /= t1) << endl;
     cout << t - t1 << endl;
     cin >> t1;
     cout << t1 << endl;
+
+    cout << endl;
 
     vector <Point> a = {Point(0, 0), Point(2, 0), Point(2, 2), Point(0, 2)};
     vector <Point> b = {Point(0, 0), Point(2, 0), Point(2, 2)};
