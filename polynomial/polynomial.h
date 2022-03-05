@@ -11,7 +11,6 @@ private:
      * @brief Массив с коэффициентами полинома, где i-элемент массива - коэффициент при x^i
      *
      */
-    // std::vector<double> coef_;
     std::map<int, double> coef_;
     int degree_ = 0;
     /**
