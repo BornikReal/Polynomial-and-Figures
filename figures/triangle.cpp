@@ -4,41 +4,37 @@
 #include <iostream>
 #include <math.h>
 
-double Triangle::new_square() const {
-    if (points.size() == 0)
+double Triangle::new_square() const
+{
+    if (points_.size() == 0)
         return 0;
-    double a = length(points[0], points[1]);
-    double b = length(points[0], points[2]);
-    double c = length(points[2], points[1]);
-    double p = perimeter / 2;
+    double a = length(points_[0], points_[1]);
+    double b = length(points_[0], points_[2]);
+    double c = length(points_[2], points_[1]);
+    double p = perimeter_ / 2;
     return sqrt(p * (p - a) * (p - b) * (p - c));
 }
 
-Triangle::Triangle(const std::vector <Point> &_points):Polygon(_points) {
-    if (points.size() != 3) {
-        points.resize(0);
-        perimeter = 0;
-        square = 0;
+Triangle::Triangle(const std::vector<Point> &points) : Polygon(points)
+{
+    if (points_.size() != 3)
+    {
+        points_.resize(0);
+        perimeter_ = 0;
+        square_ = 0;
     }
 }
 
-Triangle::Triangle(const Point& point1, const Point& point2, const Point& point3):Polygon({point1, point2, point3}) {}
+Triangle::Triangle(const Point &point1, const Point &point2, const Point &point3) : Polygon({point1, point2, point3}) {}
 
-Triangle::Triangle(const Triangle& new_triangle):Polygon(new_triangle) {}
+Triangle::Triangle(const Triangle &rhs) : Polygon(rhs) {}
 
-Triangle& Triangle::operator = (const Triangle &new_triangle) {
-    points.resize(new_triangle.points.size());
-    for (int i = 0; i < new_triangle.points.size(); i++)
-        points[i] = new_triangle.points[i];
-    perimeter = new_triangle.perimeter;
-    square = new_triangle.square;
+Triangle &Triangle::operator=(const Triangle &rhs)
+{
+    points_.resize(rhs.points_.size());
+    for (int i = 0; i < rhs.points_.size(); i++)
+        points_[i] = rhs.points_[i];
+    perimeter_ = rhs.perimeter_;
+    square_ = rhs.square_;
     return *this;
-}
-
-std::ostream &operator<<(std::ostream &out, const Triangle &triangle) {
-    out << "Triangle:";
-    for (int i = 0; i < triangle.points.size(); i++)
-        out << " " << triangle.points[i];
-    out << " Perimetere = " << triangle.get_perimeter() << " Square = " << triangle.get_square();
-    return out;
 }

@@ -1,59 +1,100 @@
 #include "polynomial.h"
 #include <vector>
+#include <map>
 #include <string>
 #include <iostream>
+#include <math.h>
 
 void Polynimial::fix()
 {
-    int new_size;
-    for (int i = coef.size() - 1; i >= 0; i--)
+    degree_ = 0;
+    std::map<int, double>::iterator it = coef_.begin();
+    while (it != coef_.end())
     {
-        if (coef[i] != 0)
+        if (it->second == 0)
         {
-            new_size = i + 1;
-            break;
+            std::map<int, double>::iterator temp = it;
+            ++it;
+            coef_.erase(temp);
         }
+        else if (it->first > degree_)
+        {
+            degree_ = it->first;
+            ++it;
+        }
+        else
+            ++it;
     }
-    coef.resize(new_size);
+    std::map<int, double> new_map;
+    for (int i = 0; i <= degree_; ++i)
+        if (coef_.count(i))
+            new_map[i] = coef_[i];
+    coef_ = new_map;
 }
 
-Polynimial::Polynimial(unsigned size = 0, double value = 0)
+Polynimial::Polynimial() {}
+
+Polynimial::Polynimial(unsigned size, double value = 0)
 {
-    if ((!size) || (value != 0))
-        coef.resize(size, value);
+    for (int i = 0; i < size; i++)
+        coef_[i] = value;
+    if (size && !value)
+        coef_[size - 1] = 1;
+    degree_ = size;
 }
 
-Polynimial::Polynimial(const std::vector<double> &_coef)
+Polynimial::Polynimial(const std::vector<double> &coef)
 {
-    coef.resize(_coef.size());
-    for (int i = 0; i < _coef.size(); i++)
-        coef[i] = _coef[i];
+    for (int i = 0; i < coef.size(); i++)
+        coef_[i] = coef[i];
+    degree_ = coef_.size() - 1;
     fix();
 }
 
-Polynimial::Polynimial(const Polynimial &new_poly)
+Polynimial::Polynimial(const std::map<int, double> &coef)
 {
-    coef.resize(new_poly.coef.size());
-    for (int i = 0; i < new_poly.coef.size(); i++)
-        coef[i] = new_poly.coef[i];
+    coef_ = coef;
+    fix();
 }
 
-int Polynimial::size()
+Polynimial::Polynimial(const Polynimial &new_polynimial) : coef_(new_polynimial.coef_), degree_(new_polynimial.degree_) {}
+
+int Polynimial::degree() const
 {
-    return coef.size();
+    return degree_;
 }
 
-Polynimial &Polynimial::operator=(const Polynimial &new_poly)
+Polynimial &Polynimial::operator=(const Polynimial &rhs)
 {
-    coef.resize(new_poly.coef.size());
-    for (int i = 0; i < coef.size(); i++)
-        coef[i] = new_poly.coef[i];
+    coef_ = rhs.coef_;
+    degree_ = rhs.degree_;
     return *this;
 }
 
-double &Polynimial::operator[](int i)
+double Polynimial::operator[](int rhs) const
 {
-    return coef[i];
+    if (coef_.count(rhs))
+        return coef_.at(rhs);
+    return 0;
+}
+
+double &Polynimial::operator[](int rhs)
+{
+    return coef_[rhs];
+}
+
+double Polynimial::operator()(double rhs) const
+{
+    if (rhs == 0)
+    {
+        if (coef_.count(rhs))
+            return coef_.at(0);
+        return 0;
+    }
+    double result = 0;
+    for (auto it : coef_)
+        result += it.second * pow(rhs, it.first);
+    return result;
 }
 
 Polynimial Polynimial::operator+() const
@@ -63,36 +104,23 @@ Polynimial Polynimial::operator+() const
 
 Polynimial Polynimial::operator-() const
 {
-    Polynimial new_poly(*this);
-    for (int i = 0; i < coef.size(); i++)
-        new_poly.coef[i] = -new_poly.coef[i];
-    return new_poly;
+    Polynimial new_polynimial(*this);
+    for (auto &it : new_polynimial.coef_)
+        it.second = -it.second;
+    return new_polynimial;
 }
 
-Polynimial &Polynimial::operator+=(const Polynimial &poly)
+Polynimial &Polynimial::operator+=(const Polynimial &rhs)
 {
-    int t = coef.size();
-    for (int i = 0; i < t; i++)
-        coef[i] += poly.coef[i];
-    if (t < poly.coef.size())
-        coef.resize(poly.coef.size());
-    for (int i = t; i < coef.size(); i++)
-        coef[i] = poly.coef[i];
+    for (auto it : rhs.coef_)
+        coef_[it.first] += it.second;
     fix();
     return *this;
 }
 
-Polynimial &Polynimial::operator+=(double num)
+Polynimial &Polynimial::operator+=(double rhs)
 {
-    if (coef.size() == 0)
-    {
-        if (num == 0)
-            return *this;
-        coef.resize(1);
-        coef[0] = num;
-        return *this;
-    }
-    coef[0] += num;
+    coef_[0] += rhs;
     fix();
     return *this;
 }
@@ -100,34 +128,20 @@ Polynimial &Polynimial::operator+=(double num)
 Polynimial &Polynimial::operator++()
 {
     *this += 1;
+    return *this;
+}
+
+Polynimial &Polynimial::operator-=(const Polynimial &rhs)
+{
+    for (auto it : rhs.coef_)
+        coef_[it.first] -= it.second;
     fix();
     return *this;
 }
 
-Polynimial &Polynimial::operator-=(const Polynimial &poly)
+Polynimial &Polynimial::operator-=(double rhs)
 {
-    int t = coef.size();
-    for (int i = 0; i < t; i++)
-        coef[i] -= poly.coef[i];
-    if (t < poly.coef.size())
-        coef.resize(poly.coef.size());
-    for (int i = t; i < coef.size(); i++)
-        coef[i] = -poly.coef[i];
-    fix();
-    return *this;
-}
-
-Polynimial &Polynimial::operator-=(double num)
-{
-    if (coef.size() == 0)
-    {
-        if (num == 0)
-            return *this;
-        coef.resize(1);
-        coef[0] = -num;
-        return *this;
-    }
-    coef[0] -= num;
+    coef_[0] -= rhs;
     fix();
     return *this;
 }
@@ -135,213 +149,260 @@ Polynimial &Polynimial::operator-=(double num)
 Polynimial &Polynimial::operator--()
 {
     *this -= 1;
+    return *this;
+}
+
+Polynimial &Polynimial::operator*=(const Polynimial &rhs)
+{
+    Polynimial new_polynimial(*this);
+    coef_.clear();
+    for (auto it : new_polynimial.coef_)
+        for (auto it1 : rhs.coef_)
+            coef_[it.first + it1.first] += it.second * it1.second;
     fix();
     return *this;
 }
 
-Polynimial &Polynimial::operator*=(const Polynimial &poly)
+Polynimial &Polynimial::operator*=(double rhs)
 {
-    Polynimial new_poly(*this);
-    for (int i = 0; i < coef.size(); i++)
-        coef[i] = 0;
-    coef.resize(coef.size() + poly.coef.size(), 0);
-    for (int i = 0; i < new_poly.coef.size(); i++)
+    for (auto &it : coef_)
+        it.second *= rhs;
+    fix();
+    return *this;
+}
+
+Polynimial &Polynimial::operator/=(const Polynimial &rhs)
+{
+    if (degree_ < rhs.degree_)
     {
-        for (int j = 0; j < poly.coef.size(); j++)
-            coef[i + j] += new_poly.coef[i] * poly.coef[j];
+        *this = Polynimial();
+        return *this;
     }
-    return *this;
-}
-
-Polynimial &Polynimial::operator*=(double num)
-{
-    for (int i = 0; i < coef.size(); i++)
-        coef[i] *= num;
+    Polynimial temp(*this);
+    coef_.clear();
+    double new_coef;
+    while (temp.degree_ >= rhs.degree_)
+    {
+        new_coef = temp.coef_[temp.degree_] / rhs.coef_.at(rhs.degree_);
+        coef_[temp.degree_ - rhs.degree_] = new_coef;
+        temp -= (rhs << (temp.degree_ - rhs.degree_)) * new_coef;
+    }
     fix();
     return *this;
 }
 
-Polynimial &Polynimial::operator/=(double num)
+Polynimial &Polynimial::operator/=(double rhs)
 {
-    for (int i = 0; i < coef.size(); i++)
-        coef[i] /= num;
+    for (auto &it : coef_)
+        it.second /= rhs;
     return *this;
 }
 
-bool Polynimial::operator==(const Polynimial &poly) const
+bool Polynimial::operator==(const Polynimial &rhs) const
 {
-    if (coef.size() != poly.coef.size())
+    if (coef_.size() != rhs.coef_.size())
         return false;
-    for (int i = 0; i < coef.size(); i++)
-    {
-        if (coef[i] != poly.coef[i])
+    for (auto it : rhs.coef_)
+        if (!coef_.count(it.first))
             return false;
-    }
     return true;
 }
 
-bool Polynimial::operator!=(const Polynimial &poly) const
+bool Polynimial::operator!=(const Polynimial &rhs) const
 {
-    if (coef.size() != poly.coef.size())
-        return false;
-    for (int i = 0; i < coef.size(); i++)
-    {
-        if (coef[i] != poly.coef[i])
-            return true;
-    }
-    return false;
+    return !(*this == rhs);
 }
 
-Polynimial Polynimial::operator+(const Polynimial &poly) const
+Polynimial Polynimial::operator+(const Polynimial &rhs) const
 {
-    Polynimial new_poly(*this);
-    if (new_poly.coef.size() > poly.coef.size())
-    {
-        for (int i = 0; i < poly.coef.size(); i++)
-            new_poly.coef[i] += poly.coef[i];
-        new_poly.fix();
-        return new_poly;
-    }
-    else
-    {
-        for (int i = 0; i < new_poly.coef.size(); i++)
-            new_poly.coef[i] += poly.coef[i];
-        int t = new_poly.coef.size();
-        new_poly.coef.resize(poly.coef.size());
-        for (int i = t; i < new_poly.coef.size(); i++)
-            new_poly.coef[i] = poly.coef[i];
-        new_poly.fix();
-        return new_poly;
-    }
+    Polynimial new_polynimial(*this);
+    for (auto it : rhs.coef_)
+        new_polynimial.coef_[it.first] += it.second;
+    new_polynimial.fix();
+    return new_polynimial;
 }
 
-Polynimial Polynimial::operator+(double num) const
+Polynimial Polynimial::operator+(double rhs) const
 {
-    if (coef.size() == 0)
-        return Polynimial(1, num);
-    Polynimial new_poly(*this);
-    new_poly.coef[0] += num;
-    new_poly.fix();
-    return new_poly;
+    Polynimial new_polynimial(*this);
+    new_polynimial.coef_[0] += rhs;
+    new_polynimial.fix();
+    return new_polynimial;
 }
 
 Polynimial Polynimial::operator++(int)
 {
-    Polynimial new_poly(*this);
-    ++*this;
-    return new_poly;
+    Polynimial new_polynimial(++*this);
+    return new_polynimial;
 }
 
-Polynimial Polynimial::operator-(const Polynimial &poly) const
+Polynimial Polynimial::operator-(const Polynimial &rhs) const
 {
-    return *this + (-poly);
+    return *this + (-rhs);
 }
 
-Polynimial Polynimial::operator-(double num) const
+Polynimial Polynimial::operator-(double rhs) const
 {
-    return -(*this);
+    return *this + (-rhs);
 }
 
 Polynimial Polynimial::operator--(int)
 {
-    Polynimial new_poly(*this);
+    Polynimial new_polynimial(*this);
     --*this;
-    return new_poly;
+    return new_polynimial;
 }
 
-Polynimial Polynimial::operator*(const Polynimial &poly) const
+Polynimial Polynimial::operator*(const Polynimial &rhs) const
 {
-    Polynimial new_poly(poly.coef.size() + coef.size());
-    for (int i = 0; i < coef.size(); i++)
+    Polynimial new_polynimial;
+    for (auto it : coef_)
+        for (auto it1 : rhs.coef_)
+            new_polynimial.coef_[it.first + it1.first] += it.second * it1.second;
+    new_polynimial.fix();
+    return new_polynimial;
+}
+
+Polynimial Polynimial::operator*(double rhs) const
+{
+    Polynimial new_polynimial(*this);
+    for (auto &it : new_polynimial.coef_)
+        it.second *= rhs;
+    new_polynimial.fix();
+    return new_polynimial;
+}
+
+Polynimial Polynimial::operator/(const Polynimial &rhs) const
+{
+    if (degree_ < rhs.degree_)
+        return Polynimial();
+    Polynimial new_polynimial;
+    Polynimial temp(*this);
+    double new_coef;
+    while (temp.degree_ >= rhs.degree_)
     {
-        for (int j = 0; j < poly.coef.size(); j++)
-            new_poly[i + j] += coef[i] * poly.coef[j];
+        new_coef = temp.coef_[temp.degree_] / rhs.coef_.at(rhs.degree_);
+        new_polynimial.coef_[temp.degree_ - rhs.degree_] = new_coef;
+        temp -= (rhs << (temp.degree_ - rhs.degree_)) * new_coef;
     }
-    return new_poly;
+    new_polynimial.fix();
+    return new_polynimial;
 }
 
-Polynimial Polynimial::operator*(double num) const
+Polynimial Polynimial::operator/(double rhs) const
 {
-    if (!num)
+    Polynimial new_polynimial(*this);
+    for (auto &it : new_polynimial.coef_)
+        it.second /= rhs;
+    new_polynimial.fix();
+    return new_polynimial;
+}
+
+std::ostream &operator<<(std::ostream &out, const Polynimial &rhs)
+{
+    if (rhs.degree_ == 0)
     {
-        Polynimial new_poly;
-        return new_poly;
-    }
-    Polynimial new_poly(*this);
-    for (int i = 0; i < coef.size(); i++)
-        new_poly.coef[i] *= num;
-    return new_poly;
-}
-
-Polynimial Polynimial::operator/(double num) const
-{
-    Polynimial new_poly(*this);
-    for (int i = 0; i < coef.size(); i++)
-        new_poly.coef[i] /= num;
-    return new_poly;
-}
-
-std::ostream &operator<<(std::ostream &out, const Polynimial &poly)
-{
-    if (poly.coef.size() == 0)
+        out << rhs[0];
         return out;
-    if ((poly.coef.size() >= 1) && (poly.coef[0] != 0))
-        out << poly.coef[0];
+    }
     double t;
-    bool d = false;
-    if (poly.coef[0] != 0)
-        d = true;
-    for (int i = 1; i < poly.coef.size(); i++)
+    if (rhs[rhs.degree_] < 0)
+        out << "-";
+    for (int i = rhs.degree_; i >= 1; i--)
     {
-        if (poly.coef[i] == 0)
+        if (rhs[i] == 0)
             continue;
-        else if (d)
+        else if (i != (rhs.degree_))
         {
-            if (poly.coef[i] > 0)
+            if (rhs[i] > 0)
                 out << " + ";
             else
                 out << " - ";
         }
-        t = abs(poly.coef[i]);
+        t = abs(rhs[i]);
         if (t != 1)
-            out << abs(poly.coef[i]) << "x";
+            out << t << "x";
         else
             out << "x";
         if (i != 1)
             out << "^" << i;
-        d = true;
     }
+    if (rhs[0] > 0)
+        out << " + " << abs(rhs[0]);
+    else if (rhs[0] != 0)
+        out << " - " << abs(rhs[0]);
     return out;
 }
 
-std::istream &operator>>(std::istream &in, Polynimial &poly)
+std::istream &operator>>(std::istream &in, Polynimial &rhs)
 {
     int size;
     in >> size;
-    poly.coef.resize(size);
+    rhs.coef_.clear();
     for (int i = 0; i < size; i++)
-        in >> poly.coef[i];
+        in >> rhs.coef_[i];
+    if (size)
+        rhs.degree_ = size - 1;
+    else
+        rhs.degree_ = 0;
     return in;
 }
 
-Polynimial &Polynimial::operator<<(int num)
+Polynimial Polynimial::operator<<(int rhs) const
 {
-    if (num <= 0)
+    if (rhs <= 0)
         return *this;
-    coef.resize(coef.size() + num);
-    for (int i = (coef.size() - 1); i >= num; i--)
-        coef[i] = coef[i - num];
-    for (int i = 0; i < num; i++)
-        coef[i] = 0;
-    return *this;
+    Polynimial new_polynimial;
+    for (auto &it : coef_)
+        new_polynimial[it.first + rhs] = it.second;
+    new_polynimial.degree_ = degree_ + rhs;
+    return new_polynimial;
 }
 
-Polynimial &Polynimial::operator>>(int num)
+Polynimial Polynimial::operator>>(int rhs) const
 {
-    if (num <= 0)
+    if (rhs <= 0)
         return *this;
-    for (int i = 0; i <= (coef.size() - num); i++)
-        coef[i] = coef[i + num];
-    coef.resize(coef.size() - num);
-    return *this;
+    if (degree_ <= rhs)
+        return Polynimial();
+    Polynimial new_polynimial;
+    for (auto &it : coef_)
+        if (it.first >= rhs)
+            new_polynimial[it.first - rhs] = it.second;
+    new_polynimial.degree_ = degree_ - rhs;
+    return new_polynimial;
+}
+
+Polynimial Polynimial::derivative() const
+{
+    Polynimial new_polynimial(*this >> 1);
+    for (auto &it : new_polynimial.coef_)
+        it.second *= (it.first + 1);
+    return new_polynimial;
+}
+
+Polynimial Polynimial::primitive() const
+{
+    Polynimial new_polynimial(*this << 1);
+    for (auto &it : new_polynimial.coef_)
+        it.second /= it.first;
+    return new_polynimial;
+}
+
+double Polynimial::root(double start, double end, double accuracy) const
+{
+    Polynimial temp(*this);
+    if (temp(start) == 0)
+        return start;
+    if (temp(end) == 0)
+        return end;
+    double fixer = 0.000000000000001;
+    end += fixer;
+    while (abs(end - start) > accuracy)
+    {
+        start = end - (end - start) * temp(end) / (temp(end) - temp(start));
+        end = start - (start - end) * temp(start) / (temp(start) - temp(end));
+        end += fixer;
+    }
+    return end;
 }

@@ -4,60 +4,76 @@
 #include <iostream>
 #include <math.h>
 
-bool Polygon::is_polygon() const {
-    if (points.size() == 0)
-        return true;
-    double k = length(points[0], points[1]);
-    double b = points[0].y() - k * points[0].x();
-    for (int i = 2; i < points.size(); i++) {
-        if ((k * points[i].x() + b) != points[i].y())
-            return true;
+bool Polygon::is_polygon() const
+{
+    if (points_.size() != 0) {
+        // double k = length(points_[0], points_[1]);
+        double k = (points_[1].y() - points_[0].y()) / (points_[1].x() - points_[0].x());
+        double b = points_[0].y() - k * points_[0].x();
+        for (int i = 2; i < points_.size(); i++)
+            if ((k * points_[i].x() + b) == points_[i].y())
+                return false;
     }
-    return false;
+    for (int i = 0; i < points_.size() - 1; i++)
+        for (int j = i + 2; j < points_.size() - 1; j++)
+            if (is_crossing(points_[i], points_[i + 1], points_[j], points_[j + 1]))
+                return false;
+    return true;
 }
 
-double Polygon::new_square() const {
-    double sq = points[points.size() - 1].x() * points[0].y() - points[points.size() - 1].y() * points[0].x();
-    for (int i = 0; i < points.size() - 1; i++) {
-        sq += points[i].x() + points[i + 1].y();
-        sq -= points[i].y() + points[i + 1].x();
+double Polygon::new_square() const
+{
+    if (points_.size() == 0)
+        return 0;
+    double sq = points_[points_.size() - 1].x() * points_[0].y() - points_[points_.size() - 1].y() * points_[0].x();
+    for (int i = 0; i < points_.size() - 1; i++)
+    {
+        sq += points_[i].x() * points_[i + 1].y();
+        sq -= points_[i].y() * points_[i + 1].x();
     }
     return 0.5 * abs(sq);
 }
 
-Polygon::Polygon() {
-    square = 0;
+Polygon::Polygon()
+{
+    square_ = 0;
 }
 
-Polygon::Polygon(const std::vector <Point> &_points):CPolyline(_points) {
-    if (!is_polygon()) {
-        points.resize(0);
-        perimeter = 0;
+Polygon::Polygon(const std::vector<Point> &points) : ClosedPolyline(points)
+{
+    if (!is_polygon())
+    {
+        points_.resize(0);
+        perimeter_ = 0;
     }
-    square = new_square();
+    square_ = new_square();
 }
 
-Polygon::Polygon(const Polygon& new_polygon):CPolyline(new_polygon) {
-    square = new_square();
+Polygon::Polygon(const Polygon &rhs) : ClosedPolyline(rhs)
+{
+    square_ = new_square();
 }
 
-Polygon& Polygon::operator = (const Polygon &new_polygon) {
-    points.resize(new_polygon.points.size());
-    for (int i = 0; i < points.size(); i++)
-        points[i] = new_polygon.points[i];
-    perimeter = new_perimeter();
-    square = new_square();
+Polygon &Polygon::operator=(const Polygon &rhs)
+{
+    points_.resize(rhs.points_.size());
+    for (int i = 0; i < points_.size(); i++)
+        points_[i] = rhs.points_[i];
+    perimeter_ = new_perimeter();
+    square_ = new_square();
     return *this;
 }
 
-std::ostream &operator<<(std::ostream &out, const Polygon &polygon) {
-    out << "Polygon:";
-    for (int i = 0; i < polygon.points.size(); i++)
-        out << " " << polygon.points[i];
-    out << " Perimetere = " << polygon.get_perimeter() << " Square = " << polygon.get_square();
+std::ostream &operator<<(std::ostream &out, const Polygon &rhs)
+{
+    out << "{";
+    for (int i = 0; i < rhs.points_.size(); i++)
+        out << rhs.points_[i] << ", ";
+    out << "Perimeter = " << rhs.perimeter() << ", square = " << rhs.square() << "}";
     return out;
 }
 
-double Polygon::get_square() const {
-    return square;
+double Polygon::square() const
+{
+    return square_;
 }
