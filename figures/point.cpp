@@ -91,3 +91,11 @@ double length(const Point &point1, const Point &point2)
 {
     return sqrt((point1.x_ - point2.x_) * (point1.x_ - point2.x_) + (point1.y_ - point2.y_) * (point1.y_ - point2.y_));
 }
+
+static double area(const Point &point1, const Point &point2, const Point &point3) {
+    return (point2.x() - point1.x()) * (point3.y() - point1.y()) - (point2.y() - point1.y()) * (point3.x() - point1.x());
+}
+
+bool is_crossing(const Point &point1, const Point &point2, const Point &point3, const Point &point4) {
+    return (area(point1,point2,point3) * area(point1,point2,point4) <= 0) && (area(point3,point4,point1) * area(point3,point4,point2) <= 0);
+}

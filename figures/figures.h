@@ -20,6 +20,7 @@ private:
      *
      */
     double y_;
+    static double area(const Point &point1, const Point &point2, const Point &point3);
 
 public:
     /**
@@ -72,6 +73,7 @@ public:
      * @return double
      */
     friend double length(const Point &point1, const Point &point2);
+    friend bool is_crossing(const Point &point1, const Point &point2, const Point &point3, const Point &point4);
 };
 
 class Polyline

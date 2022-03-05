@@ -6,6 +6,9 @@
 
 bool RegularPolygon::is_regular_polygon()
 {
+    
+    if (points_.size() == 0)
+        return true;
     Point a = Point(0, 0) + (points_[0] - points_[1]);
     Point b = Point(0, 0) + (points_[0] - points_[points_.size() - 1]);
     side_ = Polyline({points_[0], points_[1]});

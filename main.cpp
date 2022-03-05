@@ -31,9 +31,10 @@ int main(int argc, char* argv[])
     vector <Point> b = {Point(0, 0), Point(2, 0), Point(2, 2)};
     vector <Point> c = {Point(0, 0), Point(3, 0), Point(2, 2), Point(0, 2)};
     Polyline p1(a);
-    Polyline p11({a[0], a[2]});
+    Polyline p11({a[0], a[1]});
     Polyline p12({a[2], a[3]});
     cout << p11.collinear(p12) << endl;
+    cout << is_crossing(Point(0, 0), Point(0, 2), Point(2, 0), Point(2, 2)) << endl;
     ClosedPolyline p2(a);
     cout << p2 << endl;
     vector<Polygon> figures;

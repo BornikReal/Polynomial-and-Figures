@@ -6,20 +6,25 @@
 
 bool Polygon::is_polygon() const
 {
-    if (points_.size() == 0)
-        return true;
-    double k = length(points_[0], points_[1]);
-    double b = points_[0].y() - k * points_[0].x();
-    for (int i = 2; i < points_.size(); i++)
-    {
-        if ((k * points_[i].x() + b) != points_[i].y())
-            return true;
+    if (points_.size() != 0) {
+        // double k = length(points_[0], points_[1]);
+        double k = (points_[1].y() - points_[0].y()) / (points_[1].x() - points_[0].x());
+        double b = points_[0].y() - k * points_[0].x();
+        for (int i = 2; i < points_.size(); i++)
+            if ((k * points_[i].x() + b) == points_[i].y())
+                return false;
     }
-    return false;
+    for (int i = 0; i < points_.size() - 1; i++)
+        for (int j = i + 2; j < points_.size() - 1; j++)
+            if (is_crossing(points_[i], points_[i + 1], points_[j], points_[j + 1]))
+                return false;
+    return true;
 }
 
 double Polygon::new_square() const
 {
+    if (points_.size() == 0)
+        return 0;
     double sq = points_[points_.size() - 1].x() * points_[0].y() - points_[points_.size() - 1].y() * points_[0].x();
     for (int i = 0; i < points_.size() - 1; i++)
     {

@@ -6,6 +6,8 @@
 
 double ClosedPolyline::new_perimeter() const
 {
+    if (points_.size() == 0)
+        return 0;
     double len = length(points_[0], points_[points_.size() - 1]);
     for (int i = 1; i < points_.size(); i++)
         len += length(points_[i], points_[i - 1]);

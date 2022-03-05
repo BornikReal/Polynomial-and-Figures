@@ -21,6 +21,11 @@ double Trapezoid::new_square() const
 
 Trapezoid::Trapezoid(const std::vector<Point> &points) : Polygon(points)
 {
+    if (points_.size() == 0) {
+        perimeter_ = 0;
+        square_ = 0;
+        return;
+    }
     Polyline a({points_[0], points_[1]});
     Polyline b({points_[2], points_[3]});
     Polyline c({points_[1], points_[2]});
