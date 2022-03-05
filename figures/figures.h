@@ -73,6 +73,16 @@ public:
      * @return double
      */
     friend double length(const Point &point1, const Point &point2);
+    /**
+     * @brief Проверяет пересекаются ли отрезки с концами point1, point2 и point3, point4
+     * 
+     * @param point1 
+     * @param point2 
+     * @param point3 
+     * @param point4 
+     * @return true 
+     * @return false 
+     */
     friend bool is_crossing(const Point &point1, const Point &point2, const Point &point3, const Point &point4);
 };
 
