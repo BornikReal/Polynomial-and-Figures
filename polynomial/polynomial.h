@@ -142,7 +142,7 @@ public:
      *
      * @return Polynimial
      */
-    Polynimial primitive(double con) const;
+    Polynimial primitive() const;
     /**
      * @brief Возвращает один из корней полинома на заданном промежутке с заданной точностью
      * 

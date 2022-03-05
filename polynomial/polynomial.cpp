@@ -187,6 +187,7 @@ Polynimial &Polynimial::operator/=(const Polynimial &rhs)
         coef_[temp.degree_ - rhs.degree_] = new_coef;
         temp -= (rhs << (temp.degree_ - rhs.degree_)) * new_coef;
     }
+    fix();
     return *this;
 }
 
@@ -284,6 +285,7 @@ Polynimial Polynimial::operator/(const Polynimial &rhs) const
         new_polynimial.coef_[temp.degree_ - rhs.degree_] = new_coef;
         temp -= (rhs << (temp.degree_ - rhs.degree_)) * new_coef;
     }
+    new_polynimial.fix();
     return new_polynimial;
 }
 
@@ -292,6 +294,7 @@ Polynimial Polynimial::operator/(double rhs) const
     Polynimial new_polynimial(*this);
     for (auto &it : new_polynimial.coef_)
         it.second /= rhs;
+    new_polynimial.fix();
     return new_polynimial;
 }
 
@@ -362,10 +365,11 @@ Polynimial Polynimial::operator>>(int rhs) const
         return *this;
     if (degree_ <= rhs)
         return Polynimial();
-    Polynimial new_polynimial(*this);
+    Polynimial new_polynimial;
     for (auto &it : coef_)
         if (it.first >= rhs)
             new_polynimial[it.first - rhs] = it.second;
+    new_polynimial.degree_ = degree_ - rhs;
     return new_polynimial;
 }
 
@@ -377,12 +381,12 @@ Polynimial Polynimial::derivative() const
     return new_polynimial;
 }
 
-Polynimial Polynimial::primitive(double con = 0) const
+Polynimial Polynimial::primitive() const
 {
     Polynimial new_polynimial(*this << 1);
     for (auto &it : new_polynimial.coef_)
         it.second /= it.first;
-    return (new_polynimial + con);
+    return new_polynimial;
 }
 
 double Polynimial::root(double start, double end, double accuracy) const

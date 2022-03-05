@@ -17,6 +17,8 @@ int main(int argc, char* argv[])
     cout << t(1) << endl;
     cout << t.root(0, 4, 0.001) << endl;
     cout << t1.root(-4, 4, 0.001) << endl;
+    cout << t.derivative() << endl;
+    cout << t.primitive() << endl;
     cout << t + t1 << endl;
     cout << t * t1 << endl;
     cout << t / t1 << endl;
