@@ -25,21 +25,21 @@ public:
      * @brief Создаёт пустой полином (из 0 одночленов)
      *
      */
-    Polynimial();
+    explicit Polynimial();
     /**
      * @brief Создаёт полином из заданного числа одночленов, где каждый коэффициент равен заданному числу
      *
      * @param size Размер полинома
      * @param value Значение каждого коэффициента
      */
-    Polynimial(unsigned size, double value);
+    explicit Polynimial(unsigned size, double value);
     /**
      * @brief Создаём полином, где коэффициенты являются членами заданного вектора
      *
      * @param _coef
      */
-    Polynimial(const std::vector<double> &coef);
-    Polynimial(const std::map<int, double> &coef);
+    explicit Polynimial(const std::vector<double> &coef);
+    explicit Polynimial(const std::map<int, double> &coef);
     Polynimial(const Polynimial &polynimial);
     ~Polynimial() {}
     /**

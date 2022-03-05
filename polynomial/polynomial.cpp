@@ -73,7 +73,9 @@ Polynimial &Polynimial::operator=(const Polynimial &rhs)
 
 double Polynimial::operator[](int rhs) const
 {
-    return coef_.at(rhs);
+    if (coef_.count(rhs))
+        return coef_.at(rhs);
+    return 0;
 }
 
 double &Polynimial::operator[](int rhs)
@@ -83,10 +85,12 @@ double &Polynimial::operator[](int rhs)
 
 double Polynimial::operator()(double rhs) const
 {
-    if (degree_ == 0)
-        return 0;
     if (rhs == 0)
-        return coef_.at(0);
+    {
+        if (coef_.count(rhs))
+            return coef_.at(0);
+        return 0;
+    }
     double result = 0;
     for (auto it : coef_)
         result += it.second * pow(rhs, it.first);
@@ -293,26 +297,26 @@ Polynimial Polynimial::operator/(double rhs) const
 
 std::ostream &operator<<(std::ostream &out, const Polynimial &rhs)
 {
-    if (rhs.coef_.size() == 0)
+    if (rhs.degree_ == 0)
     {
-        out << 0;
+        out << rhs[0];
         return out;
     }
     double t;
-    if (rhs.coef_.at(rhs.coef_.size() - 1) < 0)
+    if (rhs[rhs.degree_] < 0)
         out << "-";
-    for (int i = rhs.coef_.size() - 1; i >= 1; i--)
+    for (int i = rhs.degree_; i >= 1; i--)
     {
-        if (rhs.coef_.at(i) == 0)
+        if (rhs[i] == 0)
             continue;
-        else if (i != (rhs.coef_.size() - 1))
+        else if (i != (rhs.degree_))
         {
-            if (rhs.coef_.at(i) > 0)
+            if (rhs[i] > 0)
                 out << " + ";
             else
                 out << " - ";
         }
-        t = abs(rhs.coef_.at(i));
+        t = abs(rhs[i]);
         if (t != 1)
             out << t << "x";
         else
@@ -320,10 +324,10 @@ std::ostream &operator<<(std::ostream &out, const Polynimial &rhs)
         if (i != 1)
             out << "^" << i;
     }
-    if (rhs.coef_.at(0) > 0)
-        out << " + " << abs(rhs.coef_.at(0));
-    else if (rhs.coef_.at(0) != 0)
-        out << " - " << abs(rhs.coef_.at(0));
+    if (rhs[0] > 0)
+        out << " + " << abs(rhs[0]);
+    else if (rhs[0] != 0)
+        out << " - " << abs(rhs[0]);
     return out;
 }
 
@@ -331,8 +335,13 @@ std::istream &operator>>(std::istream &in, Polynimial &rhs)
 {
     int size;
     in >> size;
+    rhs.coef_.clear();
     for (int i = 0; i < size; i++)
         in >> rhs.coef_[i];
+    if (size)
+        rhs.degree_ = size - 1;
+    else
+        rhs.degree_ = 0;
     return in;
 }
 

@@ -7,7 +7,7 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    vector <double> x = {-6, 11, -6, 1};
+    vector <double> x = {-6, 0, -6, 1};
     vector <double> y = {1, -2, 1};
     Polynimial t(x);
     Polynimial t1(y);
